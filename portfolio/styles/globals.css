@@ -1,0 +1,220 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-strong: rgba(255, 255, 255, 0.88);
+  --surface-muted: rgba(255, 255, 255, 0.55);
+  --border: rgba(15, 23, 42, 0.08);
+  --text: #0f172a;
+  --muted: #475569;
+  --accent: #0891b2;
+  --accent-soft: rgba(8, 145, 178, 0.12);
+}
+
+html.dark {
+  color-scheme: dark;
+  --surface: rgba(15, 23, 42, 0.68);
+  --surface-strong: rgba(15, 23, 42, 0.92);
+  --surface-muted: rgba(15, 23, 42, 0.52);
+  --border: rgba(148, 163, 184, 0.18);
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #22d3ee;
+  --accent-soft: rgba(34, 211, 238, 0.14);
+}
+
+body {
+  @apply min-h-[100vh] scroll-smooth bg-fixed bg-no-repeat text-[var(--text)] scrollbar-thin scrollbar-thumb-rounded-3xl;
+  background:
+    radial-gradient(circle at left top, rgba(34, 211, 238, 0.18), transparent 28%),
+    radial-gradient(circle at right top, rgba(59, 130, 246, 0.12), transparent 24%),
+    linear-gradient(135deg, #f8fafc 0%, #e2e8f0 52%, #f8fafc 100%);
+  scrollbar-color: rgba(8, 145, 178, 0.65) transparent;
+}
+
+html.dark body {
+  background:
+    radial-gradient(circle at left top, rgba(34, 211, 238, 0.16), transparent 26%),
+    radial-gradient(circle at right top, rgba(59, 130, 246, 0.16), transparent 22%),
+    linear-gradient(135deg, #020617 0%, #0f172a 50%, #020617 100%);
+  scrollbar-color: rgba(34, 211, 238, 0.5) transparent;
+}
+
+#__next {
+  @apply min-h-[100vh] w-full;
+}
+
+html {
+  @apply h-full w-full box-border scroll-smooth;
+}
+
+* {
+  box-sizing: inherit;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+a,
+button {
+  transition-property: color, background-color, border-color, transform, box-shadow,
+    opacity;
+  transition-duration: 200ms;
+}
+
+.page-shell {
+  padding-left: clamp(1.5rem, 4vw, 7rem);
+  padding-right: clamp(1.5rem, 4vw, 7rem);
+}
+
+.section-anchor {
+  scroll-margin-top: 6rem;
+}
+
+.surface-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(22px);
+  box-shadow: 0 30px 100px rgba(2, 6, 23, 0.2);
+}
+
+.surface-card-strong {
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(26px);
+}
+
+.surface-pill {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+
+  50% {
+    transform: scale(1.08);
+    opacity: 0.8;
+  }
+}
+
+.pulse-glow {
+  animation: pulseGlow 8s ease-in-out infinite;
+}
+
+@keyframes heroFloat {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+
+  50% {
+    transform: translateY(-20px) translateX(10px);
+  }
+}
+
+@keyframes heroGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes heroGlitch {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-2px, 2px);
+  }
+
+  40% {
+    transform: translate(-2px, -2px);
+  }
+
+  60% {
+    transform: translate(2px, 2px);
+  }
+
+  80% {
+    transform: translate(2px, -2px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes heroRippleEffect {
+  to {
+    width: 200px;
+    height: 200px;
+    opacity: 0;
+  }
+}
+
+.hero-animate-float {
+  animation: heroFloat linear infinite;
+}
+
+.hero-animate-gradient {
+  animation: heroGradient 3s ease infinite;
+}
+
+.hero-glitch-text {
+  position: relative;
+}
+
+.hero-glitch-text:hover::before,
+.hero-glitch-text:hover::after {
+  content: "I'm Marlene Condesso";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.hero-glitch-text:hover::before {
+  animation: heroGlitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  color: #ec4899;
+  z-index: -1;
+}
+
+.hero-glitch-text:hover::after {
+  animation: heroGlitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both
+    infinite;
+  color: #a855f7;
+  z-index: -2;
+}
+
+.hero-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  animation: heroRippleEffect 0.6s ease-out;
+  pointer-events: none;
+}
