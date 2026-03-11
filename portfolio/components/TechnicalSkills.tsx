@@ -1,13 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
-import { skills } from '@/libs/portfolioData';
+import { getSkillCategoryLabel, siteCopy } from '@/libs/siteCopy';
+import { useSiteLanguage } from '@/libs/siteLanguage';
+import { skills, skillFilters } from '@/libs/portfolioData';
 
 
 export default function TechnicalSkills() {
   const [visibleSkills, setVisibleSkills] = useState<number[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const sectionRef = useRef<HTMLDivElement>(null);
-
-  const categories = ['All', 'Frontend', 'Backend', 'Database', 'Tools'];
+  const { language } = useSiteLanguage();
+  const copy = siteCopy[language];
 
   const filteredSkills = activeCategory === 'All' 
     ? skills 
@@ -38,14 +40,14 @@ export default function TechnicalSkills() {
     <section className="flex flex-col mb-44" id="skills" ref={sectionRef}>
       <div className="text-slate-200 xl:text-4xl text-xl font-bold items-center gap-6 py-16 relative">
         <span className="relative inline-block">
-          Technical Skills
+          {copy.skills.title}
           <div className="absolute -bottom-3 left-0 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-transparent xl:w-32 w-20"></div>
         </span>
       </div>
 
       {/* Category filters */}
       <div className="flex flex-wrap gap-3 mb-12 justify-center">
-        {categories.map((category) => (
+        {skillFilters.map((category) => (
           <button
             key={category}
             onClick={() => {
@@ -58,7 +60,7 @@ export default function TechnicalSkills() {
                 : 'bg-slate-800/50 text-slate-300 hover:bg-slate-700/50 border border-slate-700'
             }`}
           >
-            {category}
+            {getSkillCategoryLabel(language, category)}
           </button>
         ))}
       </div>
@@ -137,12 +139,12 @@ export default function TechnicalSkills() {
 
                 {/* Category badge */}
                 <span className="mt-2 px-2 py-1 bg-slate-900/50 border border-slate-700/50 rounded-full text-xs text-slate-400">
-                  {skill.category}
+                  {getSkillCategoryLabel(language, skill.category)}
                 </span>
 
                 {/* Tooltip on hover */}
                 <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-slate-900 border border-pink-500/50 px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-10 shadow-xl">
-                  <div className="text-xs font-semibold text-pink-400">Proficiency: {skill.level}%</div>
+                  <div className="text-xs font-semibold text-pink-400">{copy.skills.proficiency}: {skill.level}%</div>
                   <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-slate-900 border-r border-b border-pink-500/50"></div>
                 </div>
 

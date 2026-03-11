@@ -184,7 +184,7 @@ button {
 
 .hero-glitch-text:hover::before,
 .hero-glitch-text:hover::after {
-  content: "I'm Marlene Condesso";
+  content: attr(data-text);
   position: absolute;
   left: 0;
   top: 0;

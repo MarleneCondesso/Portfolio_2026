@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { siteCopy } from '@/libs/siteCopy';
+import { useSiteLanguage } from '@/libs/siteLanguage';
 
 const floatingParticles = Array.from({ length: 20 }, (_, index) => ({
   left: `${(index * 19 + 7) % 100}%`,
@@ -10,21 +12,24 @@ const floatingParticles = Array.from({ length: 20 }, (_, index) => ({
 export default function Hero() {
   const typewriterRef = useRef<HTMLSpanElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { language } = useSiteLanguage();
+  const copy = siteCopy[language];
   const cvFileUrl = '/files/Marlene CV - EN.pdf';
 
   useEffect(() => {
-    const texts = ['Frontend Developer', 'Web Developer', 'React Developer'];
+    const texts = copy.hero.roles;
     let textIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
     let timeout: NodeJS.Timeout;
+    const target = typewriterRef.current;
 
     const type = () => {
       const currentText = texts[textIndex];
       
-      if (typewriterRef.current) {
+      if (target) {
         if (!isDeleting) {
-          typewriterRef.current.textContent = currentText.substring(0, charIndex + 1);
+          target.textContent = currentText.substring(0, charIndex + 1);
           charIndex++;
           
           if (charIndex === currentText.length) {
@@ -33,7 +38,7 @@ export default function Hero() {
             return;
           }
         } else {
-          typewriterRef.current.textContent = currentText.substring(0, charIndex - 1);
+          target.textContent = currentText.substring(0, charIndex - 1);
           charIndex--;
           
           if (charIndex === 0) {
@@ -48,8 +53,14 @@ export default function Hero() {
 
     type();
 
-    return () => clearTimeout(timeout);
-  }, []);
+    return () => {
+      clearTimeout(timeout);
+
+      if (target) {
+        target.textContent = '';
+      }
+    };
+  }, [copy.hero.roles]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -111,13 +122,16 @@ export default function Hero() {
 
       <div className="flex flex-col gap-6 items-center text-center relative z-10">
         <div className="overflow-hidden">
-          <h1 className="hero-animate-gradient hero-glitch-text bg-gradient-to-r from-pink-400 via-purple-400 to-pink-400 bg-[length:200%_auto] bg-clip-text text-4xl font-bold text-transparent md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl">
-            I&apos;m Marlene Condesso
+          <h1
+            data-text={copy.hero.nameLine}
+            className="hero-animate-gradient hero-glitch-text bg-gradient-to-r from-pink-400 via-purple-400 to-pink-400 bg-[length:200%_auto] bg-clip-text text-4xl font-bold text-transparent md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
+          >
+            {copy.hero.nameLine}
           </h1>
         </div>
 
         <div className="flex items-center gap-3 text-xl md:text-2xl lg:text-3xl xl:text-4xl">
-          <span className="text-slate-300 font-light">I&apos;m a</span>
+          <span className="text-slate-300 font-light">{copy.hero.intro}</span>
           <div className="relative">
             <span
               ref={typewriterRef}
@@ -133,7 +147,7 @@ export default function Hero() {
             onClick={handleCTAClick}
             className="relative px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold rounded-lg overflow-hidden group cursor-pointer whitespace-nowrap transition-all duration-300 hover:shadow-[0_0_30px_rgba(236,72,153,0.5)] hover:scale-105"
           >
-            <span className="relative z-10">Get In Touch</span>
+            <span className="relative z-10">{copy.hero.contactButton}</span>
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </button>
 
@@ -143,7 +157,7 @@ export default function Hero() {
             rel="noreferrer"
             className="px-8 py-4 border-2 border-pink-500 text-pink-400 font-semibold rounded-lg cursor-pointer whitespace-nowrap transition-all duration-300 hover:bg-pink-500/10 hover:shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:scale-105"
           >
-            View Resume
+            {copy.hero.resumeButton}
           </a>
         </div>
 

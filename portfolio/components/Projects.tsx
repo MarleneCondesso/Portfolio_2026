@@ -1,5 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import {featuredProjects, sideProjects, ProjectFilter } from '../libs/portfolioData';
+import {
+  getLocalizedProjectCopy,
+  getProjectFilterLabel,
+  siteCopy,
+} from '@/libs/siteCopy';
+import { useSiteLanguage } from '@/libs/siteLanguage';
+import { featuredProjects, sideProjects, ProjectFilter, projectFilters } from '../libs/portfolioData';
 
 
 export default function Projects() {
@@ -7,11 +13,10 @@ export default function Projects() {
   const [selectedFilter, setSelectedFilter] = useState<ProjectFilter>('All');
   const [visibleCards, setVisibleCards] = useState<number[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const { language } = useSiteLanguage();
+  const copy = siteCopy[language];
 
- 
   const allProjects = showAll ? [...featuredProjects, ...sideProjects] : featuredProjects;
-
-  const filters = ['All', 'React', 'Next.js', 'Typescript', 'C#', 'MongoDB', 'Vite'];
 
   const filteredProjects = selectedFilter === 'All' 
     ? allProjects 
@@ -55,13 +60,13 @@ export default function Projects() {
   return (
     <section id="projects" className="flex flex-col mb-72 lg:gap-20" ref={sectionRef}>
       <div className="text-slate-200 xl:text-4xl text-xl font-medium items-center gap-6 py-16">
-        Projects
+        {copy.projects.title}
         <div className="bg-gradient-to-r from-pink-500 to-purple-500 h-1 xl:w-28 w-16 translate-y-5"></div>
       </div>
 
       {/* Filter Buttons */}
       <div className="flex flex-wrap gap-3 justify-center mb-12">
-        {filters.map((filter) => (
+        {projectFilters.map((filter) => (
             <button
               key={filter}
               onClick={() => setSelectedFilter(filter as ProjectFilter)}
@@ -71,102 +76,106 @@ export default function Projects() {
                 : 'bg-slate-800/50 text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 border border-slate-700'
             }`}
           >
-            {filter}
+            {getProjectFilterLabel(language, filter)}
           </button>
         ))}
       </div>
 
       <div className="flex items-center justify-center flex-col w-full self-center gap-32">
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 self-center items-center justify-center gap-12">
-          {filteredProjects.map((project, index) => (
-            <div
-              key={index}
-              data-index={index}
-              className={`project-card group perspective-1000 transition-all duration-700 ${
-                visibleCards.includes(index) 
-                  ? 'opacity-100 translate-y-0' 
-                  : 'opacity-0 translate-y-12'
-              }`}
-              style={{ transitionDelay: `${(index % 3) * 150}ms` }}
-            >
-              <div className="relative w-80 h-96 2xl:w-96 2xl:h-[28rem] preserve-3d group-hover:rotate-y-180 transition-transform duration-700 cursor-pointer">
-                {/* Front Side */}
-                <div className="absolute inset-0 backface-hidden rounded-2xl overflow-hidden bg-slate-800/50 border border-slate-700/50 shadow-2xl">
-                  <div className="relative w-full h-48 overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent"></div>
-                  </div>
-                  
-                  <div className="p-6 flex flex-col gap-4">
-                    <h2 className="text-slate-100 font-bold text-xl 2xl:text-2xl">
-                      {project.title}
-                    </h2>
+          {filteredProjects.map((project, index) => {
+            const localizedProject = getLocalizedProjectCopy(language, project);
+
+            return (
+              <div
+                key={index}
+                data-index={index}
+                className={`project-card group perspective-1000 transition-all duration-700 ${
+                  visibleCards.includes(index) 
+                    ? 'opacity-100 translate-y-0' 
+                    : 'opacity-0 translate-y-12'
+                }`}
+                style={{ transitionDelay: `${(index % 3) * 150}ms` }}
+              >
+                <div className="relative w-80 h-96 2xl:w-96 2xl:h-[28rem] preserve-3d group-hover:rotate-y-180 transition-transform duration-700 cursor-pointer">
+                  {/* Front Side */}
+                  <div className="absolute inset-0 backface-hidden rounded-2xl overflow-hidden bg-slate-800/50 border border-slate-700/50 shadow-2xl">
+                    <div className="relative w-full h-48 overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent"></div>
+                    </div>
                     
-                    <div className="flex flex-wrap gap-2">
-                      {project.tools.map((tools, i) => (
-                        <span 
-                          key={i}
-                          className={`px-3 py-1 rounded-full text-xs font-semibold border ${getTechColor(tools)}`}
-                        >
-                          {tools}
-                        </span>
-                      ))}
-                    </div>
+                    <div className="p-6 flex flex-col gap-4">
+                      <h2 className="text-slate-100 font-bold text-xl 2xl:text-2xl">
+                        {localizedProject.title}
+                      </h2>
+                      
+                      <div className="flex flex-wrap gap-2">
+                        {project.tools.map((tools, i) => (
+                          <span 
+                            key={i}
+                            className={`px-3 py-1 rounded-full text-xs font-semibold border ${getTechColor(tools)}`}
+                          >
+                            {tools}
+                          </span>
+                        ))}
+                      </div>
 
-                    <div className="mt-auto flex items-center justify-center gap-2 text-pink-400 text-sm font-medium">
-                      <span>Hover to see details</span>
-                      <i className="ri-arrow-right-line animate-pulse"></i>
+                      <div className="mt-auto flex items-center justify-center gap-2 text-pink-400 text-sm font-medium">
+                        <span>{copy.projects.hoverDetails}</span>
+                        <i className="ri-arrow-right-line animate-pulse"></i>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Back Side */}
-                <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-2xl overflow-hidden bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 border border-pink-500/30 shadow-2xl shadow-pink-500/20">
-                  <div className="p-8 flex flex-col gap-6 h-full justify-between">
-                    <div>
-                      <h2 className="text-slate-100 font-bold text-xl 2xl:text-2xl mb-4">
-                        {project.title}
-                      </h2>
-                      <p className="text-slate-300 text-sm leading-relaxed">
-                        {project.description}
-                      </p>
-                    </div>
+                  {/* Back Side */}
+                  <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-2xl overflow-hidden bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 border border-pink-500/30 shadow-2xl shadow-pink-500/20">
+                    <div className="p-8 flex flex-col gap-6 h-full justify-between">
+                      <div>
+                        <h2 className="text-slate-100 font-bold text-xl 2xl:text-2xl mb-4">
+                          {localizedProject.title}
+                        </h2>
+                        <p className="text-slate-300 text-sm leading-relaxed">
+                          {localizedProject.description}
+                        </p>
+                      </div>
 
-                    <div className="flex flex-wrap gap-2">
-                      {project.tools.map((tools, i) => (
-                        <span 
-                          key={i}
-                          className={`px-3 py-1 rounded-full text-xs font-semibold border ${getTechColor(tools)}`}
+                      <div className="flex flex-wrap gap-2">
+                        {project.tools.map((tools, i) => (
+                          <span 
+                            key={i}
+                            className={`px-3 py-1 rounded-full text-xs font-semibold border ${getTechColor(tools)}`}
+                          >
+                            {tools}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="flex gap-4">
+                        <a 
+                          href={project.gitHubUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex-1 flex items-center justify-center gap-2 bg-slate-700/50 hover:bg-slate-600/50 text-slate-200 py-3 rounded-lg transition-all duration-300 group/btn border border-slate-600 hover:border-slate-500 whitespace-nowrap"
                         >
-                          {tools}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="flex gap-4">
-                      <a 
-                        href={project.gitHubUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex-1 flex items-center justify-center gap-2 bg-slate-700/50 hover:bg-slate-600/50 text-slate-200 py-3 rounded-lg transition-all duration-300 group/btn border border-slate-600 hover:border-slate-500 whitespace-nowrap"
-                      >
-                        <i className="ri-github-fill text-xl group-hover/btn:scale-110 transition-transform"></i>
-                        <span className="font-medium">Code</span>
-                      </a>
-                      <a 
-                        href={project.webSiteUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white py-3 rounded-lg transition-all duration-300 group/btn shadow-lg shadow-pink-500/30 whitespace-nowrap"
-                      >
-                        <i className="ri-external-link-line text-xl group-hover/btn:scale-110 transition-transform"></i>
-                        <span className="font-medium">Demo</span>
-                      </a>
+                          <i className="ri-github-fill text-xl group-hover/btn:scale-110 transition-transform"></i>
+                          <span className="font-medium">{copy.projects.code}</span>
+                        </a>
+                        <a 
+                          href={project.webSiteUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white py-3 rounded-lg transition-all duration-300 group/btn shadow-lg shadow-pink-500/30 whitespace-nowrap"
+                        >
+                          <i className="ri-external-link-line text-xl group-hover/btn:scale-110 transition-transform"></i>
+                          <span className="font-medium">{copy.projects.demo}</span>
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Little Exercises Toggle */}
@@ -176,7 +185,7 @@ export default function Projects() {
             className="group flex flex-col items-center text-slate-300 hover:text-pink-400 text-lg cursor-pointer font-semibold whitespace-nowrap transition-all duration-300"
           >
             <span className="relative">
-              Little Exercises
+              {copy.projects.littleExercises}
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 group-hover:w-full transition-all duration-300"></span>
             </span>
             <i className={`ri-arrow-down-s-line text-3xl transition-all duration-500 ${showAll ? 'rotate-180 text-pink-400' : ''} group-hover:translate-y-1`}></i>

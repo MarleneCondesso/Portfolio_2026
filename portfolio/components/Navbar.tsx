@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
+import { siteCopy } from '@/libs/siteCopy';
+import { useSiteLanguage } from '@/libs/siteLanguage';
 
 interface NavbarProps {
   isScrolled: boolean;
@@ -9,17 +11,19 @@ interface NavbarProps {
 export default function Navbar({ isScrolled }: NavbarProps) {
   const [activeSection, setActiveSection] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { language, setLanguage } = useSiteLanguage();
+  const copy = siteCopy[language];
   const cvFileUrl = '/files/Marlene CV - EN.pdf';
   const logoUrl = '/images/logoWhite.png';
   const ptFlagUrl = '/icon/pt-dark.png';
   const enFlagUrl = '/icon/en-dark.png';
 
   const navItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'about', label: 'About me' },
-    { id: 'experience', label: 'Experience' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'home', label: copy.nav.home },
+    { id: 'about', label: copy.nav.about },
+    { id: 'experience', label: copy.nav.experience },
+    { id: 'projects', label: copy.nav.projects },
+    { id: 'contact', label: copy.nav.contact },
   ];
 
   const handleNavClick = (id: string) => {
@@ -81,18 +85,26 @@ export default function Navbar({ isScrolled }: NavbarProps) {
               rel="noreferrer"
               className="text-slate-300 hover:text-pink-400 transition-colors duration-300 px-4 font-semibold text-sm whitespace-nowrap cursor-pointer"
             >
-              Preview CV
+              {copy.nav.previewCv}
             </a>
             <div className="flex items-center gap-2 bg-slate-800/60 backdrop-blur-md p-1.5 rounded-xl border border-slate-700/50">
               <div className="flex gap-2 bg-slate-700/60 rounded-lg p-2">
-                <button className="opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+                <button
+                  onClick={() => setLanguage('pt')}
+                  className={`${language === 'pt' ? 'opacity-100' : 'opacity-60 hover:opacity-100'} transition-opacity cursor-pointer`}
+                  aria-label={copy.nav.portuguese}
+                >
                   <img
                     src={ptFlagUrl}
                     alt="PT"
                     className="h-4"
                   />
                 </button>
-                <button className="opacity-100">
+                <button
+                  onClick={() => setLanguage('en')}
+                  className={`${language === 'en' ? 'opacity-100' : 'opacity-60 hover:opacity-100'} transition-opacity cursor-pointer`}
+                  aria-label={copy.nav.english}
+                >
                   <img
                     src={enFlagUrl}
                     alt="EN"
@@ -106,7 +118,7 @@ export default function Navbar({ isScrolled }: NavbarProps) {
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="lg:hidden text-slate-300 hover:text-pink-400 transition-colors cursor-pointer"
-            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-label={isMobileMenuOpen ? copy.nav.closeMenu : copy.nav.openMenu}
           >
             {isMobileMenuOpen ? <IoClose size={28} /> : <FiMenu size={28} />}
           </button>
@@ -148,17 +160,25 @@ export default function Navbar({ isScrolled }: NavbarProps) {
               rel="noreferrer"
               className="text-slate-300 hover:text-pink-400 transition-colors duration-300 font-semibold text-base whitespace-nowrap cursor-pointer block mb-4"
             >
-              Preview CV
+              {copy.nav.previewCv}
             </a>
             <div className="flex gap-3">
-              <button className="opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+              <button
+                onClick={() => setLanguage('pt')}
+                className={`${language === 'pt' ? 'opacity-100' : 'opacity-60 hover:opacity-100'} transition-opacity cursor-pointer`}
+                aria-label={copy.nav.portuguese}
+              >
                 <img
                   src={ptFlagUrl}
                   alt="PT"
                   className="h-5"
                 />
               </button>
-              <button className="opacity-100">
+              <button
+                onClick={() => setLanguage('en')}
+                className={`${language === 'en' ? 'opacity-100' : 'opacity-60 hover:opacity-100'} transition-opacity cursor-pointer`}
+                aria-label={copy.nav.english}
+              >
                 <img
                   src={enFlagUrl}
                   alt="EN"

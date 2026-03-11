@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { SiteLanguageProvider } from "@/libs/siteLanguage";
 import { ThemeProvider } from "next-themes";
 import { useEffect } from "react";
 export default function App({ Component, pageProps }: AppProps) {
@@ -32,7 +33,9 @@ export default function App({ Component, pageProps }: AppProps) {
         />
       </Head>
       <ThemeProvider>
-        <Component {...pageProps} />
+        <SiteLanguageProvider>
+          <Component {...pageProps} />
+        </SiteLanguageProvider>
       </ThemeProvider>
     </>
   );

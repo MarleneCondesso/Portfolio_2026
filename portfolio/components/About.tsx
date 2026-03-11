@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { siteCopy } from '@/libs/siteCopy';
+import { useSiteLanguage } from '@/libs/siteLanguage';
 
 export default function About() {
   const [isVisible, setIsVisible] = useState(false);
@@ -6,6 +8,8 @@ export default function About() {
   const [tiltStyle, setTiltStyle] = useState({});
   const sectionRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
+  const { language } = useSiteLanguage();
+  const copy = siteCopy[language];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -83,10 +87,26 @@ export default function About() {
   };
 
   const infoCards = [
-    { icon: 'ri-cake-3-line', label: 'Birthday', value: '07.12.1997' },
-    { icon: 'ri-book-open-line', label: 'Study', value: 'University of Porto' },
-    { icon: 'ri-heart-line', label: 'Interest', value: 'Music, Travel, Games' },
-    { icon: 'ri-map-pin-line', label: 'Location', value: 'Porto, Portugal' },
+    {
+      icon: 'ri-cake-3-line',
+      label: copy.about.infoCards.birthdayLabel,
+      value: copy.about.infoCards.birthdayValue,
+    },
+    {
+      icon: 'ri-book-open-line',
+      label: copy.about.infoCards.studyLabel,
+      value: copy.about.infoCards.studyValue,
+    },
+    {
+      icon: 'ri-heart-line',
+      label: copy.about.infoCards.interestLabel,
+      value: copy.about.infoCards.interestValue,
+    },
+    {
+      icon: 'ri-map-pin-line',
+      label: copy.about.infoCards.locationLabel,
+      value: copy.about.infoCards.locationValue,
+    },
   ];
 
   return (
@@ -108,7 +128,7 @@ export default function About() {
             }`}
           >
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-pink-400 animate-gradient">
-              About Me
+              {copy.about.title}
             </span>
           </h2>
           <div
@@ -153,8 +173,8 @@ export default function About() {
               <div className="absolute -bottom-6 -right-6 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl p-6 shadow-2xl z-20">
                 <div className="text-center">
                   <div className="text-4xl font-bold text-white">{yearsCount}</div>
-                  <div className="text-sm text-white/90 mt-1">Year</div>
-                  <div className="text-xs text-white/80">Experience</div>
+                  <div className="text-sm text-white/90 mt-1">{copy.about.yearsLabel}</div>
+                  <div className="text-xs text-white/80">{copy.about.experienceLabel}</div>
                 </div>
               </div>
             </div>
@@ -192,34 +212,37 @@ export default function About() {
             {/* Bio Text with highlighted keywords */}
             <div className="space-y-4 mb-8">
               <p className="text-gray-300 leading-relaxed">
-                Hello! I am <span className="text-pink-400 font-semibold highlight-word">Marlene Condesso</span>, a{' '}
-                <span className="text-purple-400 font-semibold highlight-word">Junior Developer</span> based in
-                Porto, Portugal, at the beginning of my professional journey and highly motivated to grow.
+                {copy.about.paragraphs.introLead}
+                <span className="text-pink-400 font-semibold highlight-word">{copy.about.paragraphs.introName}</span>
+                {copy.about.paragraphs.introMiddle}
+                <span className="text-purple-400 font-semibold highlight-word">{copy.about.paragraphs.introRole}</span>
+                {copy.about.paragraphs.introEnd}
               </p>
               <p className="text-gray-300 leading-relaxed">
-                I have gained hands-on experience through <span className="text-pink-400 font-semibold highlight-word">two six-month internships</span>,
-                where I worked with technologies such as{' '}
-                <span className="text-pink-400 font-semibold highlight-word">React</span>,{' '}
-                <span className="text-pink-400 font-semibold highlight-word">TypeScript</span>, and{' '}
-                <span className="text-pink-400 font-semibold highlight-word">C#</span>.
-                I know there is still a great deal for me to learn, and that is exactly what motivates me every day.
+                {copy.about.paragraphs.experienceLead}
+                <span className="text-pink-400 font-semibold highlight-word">{copy.about.paragraphs.experienceHighlight}</span>
+                {copy.about.paragraphs.experienceMiddle}
+                <span className="text-pink-400 font-semibold highlight-word">{copy.about.paragraphs.experienceTechOne}</span>,{' '}
+                <span className="text-pink-400 font-semibold highlight-word">{copy.about.paragraphs.experienceTechTwo}</span>,{' '}
+                <span className="text-pink-400 font-semibold highlight-word">{copy.about.paragraphs.experienceTechThree}</span>
+                {copy.about.paragraphs.experienceEnd}
               </p>
               <p className="text-gray-300 leading-relaxed">
-                Technology is constantly evolving, and I want to evolve with it.
-                I am looking for the <span className="text-purple-400 font-semibold highlight-word">right opportunity</span> to
-                take my first meaningful steps in the industry, one that allows me to learn, make mistakes, grow,
-                and demonstrate that a strong commitment to becoming an excellent professional is just as valuable
-                as the experience I am still building.
+                {copy.about.paragraphs.growthLead}
+                <span className="text-purple-400 font-semibold highlight-word">{copy.about.paragraphs.growthHighlight}</span>
+                {copy.about.paragraphs.growthMiddle}
+                <span className="text-pink-400 font-semibold highlight-word">{copy.about.paragraphs.growthEmphasis}</span>
+                {copy.about.paragraphs.growthEnd}
               </p>
               <p className="text-gray-300 leading-relaxed">
-                I am determined to keep moving forward until I achieve that goal.
+                {copy.about.paragraphs.closing}
               </p>
             </div>
 
             {/* Progress Bar */}
             <div className="mb-8">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-400">Professional Growth</span>
+                <span className="text-sm text-gray-400">{copy.about.growth}</span>
                 <span className="text-sm text-pink-400 font-semibold">35%</span>
               </div>
               <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
@@ -238,7 +261,7 @@ export default function About() {
             >
               <span className="relative z-10 flex items-center gap-2">
                 <i className="ri-mail-send-line text-xl"></i>
-                Hire Me
+                {copy.about.hireMe}
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>

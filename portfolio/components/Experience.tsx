@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
+import { getExperienceContent, siteCopy } from "@/libs/siteCopy";
+import { useSiteLanguage } from "@/libs/siteLanguage";
 import ExperienceButton from "./ExperienceButton";
 import ExperienceCard from "./ExperienceCard";
 import { experiences, type ExperienceGroup } from "@/libs/portfolioData";
@@ -6,6 +8,8 @@ import { experiences, type ExperienceGroup } from "@/libs/portfolioData";
 export default function Experience() {
   const [activeGroup, setActiveGroup] = useState<ExperienceGroup>("it");
   const [showInfo, setShowInfo] = useState("n4it");
+  const { language } = useSiteLanguage();
+  const copy = siteCopy[language];
 
   const visibleExperiences = useMemo(
     () => experiences.filter((experience) => experience.group === activeGroup),
@@ -25,7 +29,7 @@ export default function Experience() {
   return (
     <section id="experience" className="py-20">
       <div className="items-center gap-6 py-16 text-xl font-medium text-slate-200 xl:text-4xl">
-        Experience
+        {copy.experience.title}
         <div className="h-1 w-16 translate-y-5 bg-gradient-to-r from-pink-500 to-purple-500 xl:w-28"></div>
       </div>
 
@@ -40,7 +44,7 @@ export default function Experience() {
                   : "border border-slate-700 bg-slate-800/50 text-slate-400 hover:text-slate-200"
               }`}
             >
-              IT area
+              {copy.experience.itArea}
             </button>
             <button
               onClick={() => setActiveGroup("other")}
@@ -50,7 +54,7 @@ export default function Experience() {
                   : "border border-slate-700 bg-slate-800/50 text-slate-400 hover:text-slate-200"
               }`}
             >
-              Other areas
+              {copy.experience.otherAreas}
             </button>
           </div>
 
@@ -61,7 +65,7 @@ export default function Experience() {
                 information={experience.id}
                 showInfo={showInfo}
                 setInformation={setShowInfo}
-                text={experience.label}
+                text={getExperienceContent(language, experience.id).title}
               />
             ))}
           </div>

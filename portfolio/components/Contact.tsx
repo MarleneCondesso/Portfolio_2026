@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { siteCopy } from '@/libs/siteCopy';
+import { useSiteLanguage } from '@/libs/siteLanguage';
 
 const contactShapes = Array.from({ length: 20 }, (_, index) => ({
   width: `${70 + (index % 5) * 30}px`,
@@ -11,7 +13,9 @@ const contactShapes = Array.from({ length: 20 }, (_, index) => ({
 
 export default function Contact() {
   const [isVisible, setIsVisible] = useState(false);
-  const title = 'SAY HI!';
+  const { language } = useSiteLanguage();
+  const copy = siteCopy[language];
+  const title = copy.contact.title;
   const cvFileUrl = '/files/Marlene CV - EN.pdf';
 
   useEffect(() => {
@@ -88,9 +92,7 @@ export default function Contact() {
             style={{ transitionDelay: '0.8s' }}
           >
             <p>
-              I&apos;m currently looking for any opportunities and challenges to
-              merge into this area and improve my skills. My inbox is always
-              open. I&apos;ll try my best to get back to you!
+              {copy.contact.description}
             </p>
           </div>
 
@@ -106,7 +108,7 @@ export default function Contact() {
             >
               <div className="absolute inset-0 translate-y-full transform bg-gradient-to-r from-pink-500 to-purple-500 transition-transform duration-500 ease-out group-hover:translate-y-0"></div>
               <i className="ri-mail-line relative z-10 text-xl transition-transform duration-300 group-hover:scale-110"></i>
-              <span className="relative z-10">Email</span>
+              <span className="relative z-10">{copy.contact.email}</span>
             </a>
             <a
               href={cvFileUrl}
@@ -115,7 +117,7 @@ export default function Contact() {
             >
               <div className="absolute inset-0 translate-y-full transform bg-gradient-to-r from-purple-500 to-pink-500 transition-transform duration-500 ease-out group-hover:translate-y-0"></div>
               <i className="ri-download-line relative z-10 text-xl transition-transform duration-300 group-hover:scale-110"></i>
-              <span className="relative z-10">Download CV</span>
+              <span className="relative z-10">{copy.contact.downloadCv}</span>
             </a>
           </div>
 
@@ -149,7 +151,7 @@ export default function Contact() {
             }`}
             style={{ transitionDelay: '1.4s' }}
           >
-            <p>(c) 2024 Marlene Condesso. All rights reserved.</p>
+            <p>(c) 2024 Marlene Condesso. {copy.contact.rights}</p>
           </div>
         </div>
       </section>

@@ -407,6 +407,12 @@ export const experiences: ExperienceItem[] = [
     technologies: ["React", ".NET", "Git", "Scrum"],
   },
   {
+    id: "confetil",
+    group: "other",
+    label: "Confetil",
+    technologies: ["Quality", "Cutting", "Textile"]
+  },
+  {
     id: "ruga",
     group: "other",
     label: "RUGA",
