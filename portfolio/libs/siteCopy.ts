@@ -104,6 +104,7 @@ export const siteCopy = {
         MongoDB: "MongoDB",
         Vite: "Vite",
         Javascript: "JavaScript",
+        Supabase: "Supabase",
       },
     },
     contact: {
@@ -217,6 +218,7 @@ export const siteCopy = {
         MongoDB: "MongoDB",
         Vite: "Vite",
         Javascript: "JavaScript",
+        Supabase: "Supabase",
       },
     },
     contact: {

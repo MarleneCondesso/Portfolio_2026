@@ -13,7 +13,9 @@ export default function Navbar({ isScrolled }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { language, setLanguage } = useSiteLanguage();
   const copy = siteCopy[language];
-  const cvFileUrl = '/files/Marlene CV - EN.pdf';
+  const cvFileUrl = language === 'pt'
+    ? '/files/Marlene CV - PT.pdf'
+    : '/files/Marlene CV - EN.pdf';
   const logoUrl = '/images/logoWhite.png';
   const ptFlagUrl = '/icon/pt-dark.png';
   const enFlagUrl = '/icon/en-dark.png';

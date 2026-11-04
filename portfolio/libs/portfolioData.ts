@@ -33,7 +33,8 @@ export type ProjectFilter =
   | "Razor"
   | "MongoDB"
   | "Vite"
-  | "Javascript";
+  | "Javascript" 
+  | "Supabase";
 export type ExperienceGroup = "it" | "other";
 
 export interface SkillItem {
@@ -45,6 +46,9 @@ export interface SkillItem {
   iconColor: string;
   color: string;
 }
+
+export type ProjectDevelopmentStatus = "complete" | "in-development" | "maintenance" | "archived";
+export type ProjectOperationalStatus = "functional" | "partially-functional" | "unavailable" | "testing";
 
 export interface ProjectItem {
   id: string;
@@ -58,6 +62,8 @@ export interface ProjectItem {
   webSiteUrl: string;
   accentClassName: string;
   eyebrow: string;
+  developmentStatus?: ProjectDevelopmentStatus;
+  operationalStatus?: ProjectOperationalStatus;
 }
 
 export interface ExperienceItem {
@@ -89,7 +95,8 @@ export const projectFilters: ProjectFilter[] = [
   "C#",
   "MongoDB",
   "Vite",
-  "Javascript"
+  "Javascript",
+  "Supabase"
 ];
 
 export const skills: SkillItem[] = [
@@ -205,6 +212,74 @@ export const skills: SkillItem[] = [
 
 export const featuredProjects: ProjectItem[] = [
   {
+    id: "family-show-tv",
+    title: "My Show TV",
+    description:
+      "A personalized entertainment tracking platform that brings TV shows, movies, anime, and watch history together in one place, with integrations, data imports, and a responsive multi-language experience.",
+    titleKey: "projects-familyShowTV-title",
+    textKey: "projects-familyShowTV-text",
+    tools: ["React", "TypeScript", "Vite", "Tailwind CSS", "Supabase"],
+    filters: ["React", "Typescript", "Supabase"],
+    gitHubUrl: "https://github.com/MarleneCondesso/FamilyShowTV",
+    webSiteUrl: "https://myshowtv.netlify.app/",
+    accentClassName:
+      "from-amber-500/35 via-orange-500/15 to-slate-900/30",
+    eyebrow: "Entertainment Platform",
+    developmentStatus: "complete",
+    operationalStatus: "functional",
+  },
+  {
+    id: "wedding-planner",
+    title: "WeddingPlanner",
+    description:
+      "A wedding planning platform designed to organize suppliers, guests, budgets, availability, and wedding tasks in one place, with dynamic filters and a streamlined planning experience.",
+    titleKey: "projects-weddingPlanner-title",
+    textKey: "projects-weddingPlanner-text",
+    tools: ["React", "TypeScript", "Tailwind CSS", "Supabase", "Vercel"],
+    filters: ["React", "Typescript", "Supabase"],
+    gitHubUrl: "https://github.com/MarleneCondesso/WeddingPlanner",
+    webSiteUrl: "https://wedding-planner-jade-five.vercel.app/",
+    accentClassName:
+      "from-rose-500/35 via-pink-500/15 to-slate-900/30",
+    eyebrow: "Wedding Management",
+    developmentStatus: "in-development",
+    operationalStatus: "functional",
+  },
+  {
+    id: "limoncello-logic",
+    title: "LimoncelloLogic",
+    description:
+      "A logic puzzle game inspired by Star Battle, featuring progressive challenges, a player profile, a lives system, and a level-based experience designed to test reasoning skills.",
+    titleKey: "projects-limoncelloLogic-title",
+    textKey: "projects-limoncelloLogic-text",
+    tools: ["React", "TypeScript", "Tailwind CSS", "Vite"],
+    filters: ["React", "Typescript"],
+    gitHubUrl: "https://github.com/MarleneCondesso/LimoncelloLogic",
+    webSiteUrl: "https://limoncello-logic.vercel.app/",
+    accentClassName:
+      "from-lime-500/35 via-yellow-500/15 to-slate-900/30",
+    eyebrow: "Logic & Gaming",
+    developmentStatus: "complete",
+    operationalStatus: "functional",
+  },
+  {
+    id: "homebase",
+    title: "HomeBase",
+    description:
+      "A centralized home management concept designed to simplify everyday life by bringing household organization, pantry tracking, warranties, subscriptions, and other essential tools into one unified platform.",
+    titleKey: "projects-homeBase-title",
+    textKey: "projects-homeBase-text",
+    tools: ["React", "TypeScript", "Tailwind CSS", "Vercel"],
+    filters: ["React", "Typescript"],
+    gitHubUrl: "https://github.com/MarleneCondesso/HomeBase",
+    webSiteUrl: "https://homebase-eight-teal.vercel.app/",
+    accentClassName:
+      "from-sky-500/35 via-cyan-500/15 to-slate-900/30",
+    eyebrow: "Home Management",
+    developmentStatus: "in-development",
+    operationalStatus: "unavailable",
+  },
+  {
     id: "domus-unify",
     title: "Domus Unify Web",
     description:
@@ -218,6 +293,8 @@ export const featuredProjects: ProjectItem[] = [
     accentClassName:
       "from-fuchsia-500/35 via-violet-500/15 to-slate-900/30",
     eyebrow: "Family Platform",
+    developmentStatus: "in-development",
+    operationalStatus: "unavailable",
   },
   {
     id: "heart-game",
@@ -233,6 +310,8 @@ export const featuredProjects: ProjectItem[] = [
     accentClassName:
       "from-fuchsia-500/35 via-violet-500/15 to-slate-900/30",
     eyebrow: "Interactive Gift",
+    developmentStatus: "complete",
+    operationalStatus: "functional",
   },
 
   {
@@ -249,6 +328,8 @@ export const featuredProjects: ProjectItem[] = [
     accentClassName:
       "from-fuchsia-500/35 via-violet-500/15 to-slate-900/30",
     eyebrow: "Card Game",
+    developmentStatus: "complete",
+    operationalStatus: "functional",
   },
   {
     id: "sudoku",
@@ -264,6 +345,8 @@ export const featuredProjects: ProjectItem[] = [
     accentClassName:
       "from-emerald-500/35 via-cyan-500/15 to-slate-900/30",
     eyebrow: "Logic Game",
+    developmentStatus: "complete",
+    operationalStatus: "functional",
   },
   {
     id: "netflix",
@@ -292,6 +375,8 @@ export const featuredProjects: ProjectItem[] = [
     webSiteUrl: "https://todolist-web-brown.vercel.app/",
     accentClassName: "from-cyan-500/35 via-sky-500/15 to-slate-900/30",
     eyebrow: "Productivity",
+    developmentStatus: "in-development",
+    operationalStatus: "partially-functional",
   },
 ];
 

@@ -6,6 +6,7 @@ import {
 } from '@/libs/siteCopy';
 import { useSiteLanguage } from '@/libs/siteLanguage';
 import { featuredProjects, sideProjects, ProjectFilter, projectFilters } from '../libs/portfolioData';
+import ProjectStatus from './ProjectStatus';
 
 
 export default function Projects() {
@@ -90,13 +91,21 @@ export default function Projects() {
               <div
                 key={index}
                 data-index={index}
-                className={`project-card group perspective-1000 transition-all duration-700 ${
+                className={`project-card group relative perspective-1000 transition-all duration-700 ${
                   visibleCards.includes(index) 
                     ? 'opacity-100 translate-y-0' 
                     : 'opacity-0 translate-y-12'
                 }`}
                 style={{ transitionDelay: `${(index % 3) * 150}ms` }}
               >
+                {/* Eyebrow tooltip: floats just above the card on hover/focus */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute left-1/2 top-0 z-30 -translate-x-1/2 -translate-y-[calc(100%+4px)] whitespace-nowrap rounded-full border border-pink-300/40 bg-gradient-to-r from-pink-500 to-fuchsia-500 px-4 py-1.5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] text-white shadow-lg shadow-pink-500/30 opacity-0 scale-95 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:scale-100 group-focus-within:opacity-100 group-focus-within:scale-100"
+                >
+                  {localizedProject.eyebrow}
+                </div>
+
                 <div className="relative w-80 h-96 2xl:w-96 2xl:h-[28rem] preserve-3d group-hover:rotate-y-180 transition-transform duration-700 cursor-pointer">
                   {/* Front Side */}
                   <div className="absolute inset-0 backface-hidden rounded-2xl overflow-hidden bg-slate-800/50 border border-slate-700/50 shadow-2xl">
@@ -105,9 +114,12 @@ export default function Projects() {
                     </div>
                     
                     <div className="p-6 flex flex-col gap-4">
-                      <h2 className="text-slate-100 font-bold text-xl 2xl:text-2xl">
-                        {localizedProject.title}
-                      </h2>
+                      <div className="flex flex-col items-start gap-2">
+                        <h2 className="text-slate-100 font-bold text-xl 2xl:text-2xl">
+                          {localizedProject.title}
+                        </h2>
+                        <ProjectStatus project={project} language={language} compact />
+                      </div>
                       
                       <div className="flex flex-wrap gap-2">
                         {project.tools.map((tools, i) => (
@@ -137,6 +149,9 @@ export default function Projects() {
                         <p className="text-slate-300 text-sm leading-relaxed">
                           {localizedProject.description}
                         </p>
+                        <div className="mt-3">
+                          <ProjectStatus project={project} language={language} />
+                        </div>
                       </div>
 
                       <div className="flex flex-wrap gap-2">
@@ -164,7 +179,7 @@ export default function Projects() {
                           href={project.webSiteUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white py-3 rounded-lg transition-all duration-300 group/btn shadow-lg shadow-pink-500/30 whitespace-nowrap"
+                          className="flex-1 flex items-center justify-center gap-2 text-white py-3 rounded-lg transition-all duration-300 group/btn shadow-lg whitespace-nowrap bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 shadow-pink-500/30"
                         >
                           <i className="ri-external-link-line text-xl group-hover/btn:scale-110 transition-transform"></i>
                           <span className="font-medium">{copy.projects.demo}</span>

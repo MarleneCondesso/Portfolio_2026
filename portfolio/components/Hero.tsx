@@ -14,7 +14,9 @@ export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const { language } = useSiteLanguage();
   const copy = siteCopy[language];
-  const cvFileUrl = '/files/Marlene CV - EN.pdf';
+  const cvFileUrl = language === 'pt'
+    ? '/files/Marlene CV - PT.pdf'
+    : '/files/Marlene CV - EN.pdf';
 
   useEffect(() => {
     const texts = copy.hero.roles;
